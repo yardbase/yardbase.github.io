@@ -1,11 +1,11 @@
-q = new Yardbase.Query().with_tag("music_event")
+q = new Yardbase.Query().with_tag("music_event").where('date', '04/07/13' )
 words = {}
 genres = ["Punk", "Classical", "Rock", "Hip-Hop", "Bluegrass"]
 q.execute (results) -> 
   for result in results
-    result.genre ||= genres[Math.floor(Math.random()*5)]
-    words[result.genre] ||= 0
-    words[result.genre] += 1
+    genre = result.music_event.genre ||= genres[Math.floor(Math.random()*5)]
+    words[genre] ||= 0
+    words[genre] += 1
   word_array = []
   for word of words
     word_array.push
