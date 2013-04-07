@@ -19,7 +19,8 @@
     word_array = [];
     for (word in words) {
       word_array.push({
-        word: words[word]
+        text: word,
+        weight: words[word]
       });
     }
     return $('#wordcloud').jQCloud(word_array);

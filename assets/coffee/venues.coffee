@@ -9,6 +9,7 @@ q.execute (results) ->
   word_array = []
   for word of words
     word_array.push
-      word: words[word]
+      text: word
+      weight: words[word]
 
   $('#wordcloud').jQCloud(word_array);
