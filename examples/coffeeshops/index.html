@@ -14,23 +14,25 @@
 <body>
   <div id="map"></div>
   <form action="#">
-    Free WiFi: <input type="checkbox" id="theatrebox" onclick="boxclick(this,'free')" checked="true"/> &nbsp;&nbsp;
-    No WiFi: <input type="checkbox" id="golfbox" onclick="boxclick(this,'paid')" checked="true"/> &nbsp;&nbsp;
+    Music Events: <input type="checkbox" id="theatrebox" onclick="boxclick(this,'music_event')" checked="true"/> &nbsp;&nbsp;
+    Coffeeshops: <input type="checkbox" id="golfbox" onclick="boxclick(this,'coffeeshop')" checked="true"/> &nbsp;&nbsp;
   </form>  
 
   <script type="text/javascript">
     function show(category) {
       for(var i = 0; i < gplaces.length; i++) {
-        if ( gplaces[i].wifi.free && category == 'free' ||
-            !gplaces[i].wifi.free && category == 'paid' ) {
+        //if ( gplaces[i].wifi.free && category == 'free' ||
+        //    !gplaces[i].wifi.free && category == 'paid' ) {
+        if (gplaces[i].tags.indexOf(category) >= 0) {
           gplaces[i].marker.setVisible(true);
         }
       }
     }
     function hide(category) {
       for(var i = 0; i < gplaces.length; i++) {
-        if ( gplaces[i].wifi.free && category == 'free' ||
-            !gplaces[i].wifi.free && category == 'paid' ) {
+        //if ( gplaces[i].wifi.free && category == 'free' ||
+        //    !gplaces[i].wifi.free && category == 'paid' ) {
+        if (gplaces[i].tags.indexOf(category) >= 0) {
           gplaces[i].marker.setVisible(false);
         }
       }
@@ -41,8 +43,6 @@
       } else {
         hide(category);
       }
-      // == rebuild the side bar
-      //makeSidebar();
     }
 
 
@@ -53,11 +53,13 @@
 
     gplaces = 0;
     var q = new Yardbase.Query();
-    q.with_tag("coffeeshop");
-    q.with_tag("wifi");
+    //q.with_tag("coffeeshop");
+    //q.with_tag("wifi");
+    q.with_tag("location");
     //q.where("wifi.free", true);
     q.execute(function(places) {
       gplaces = places;
+      console.log(places)
       var infowindow = new google.maps.InfoWindow();
       var geocoder = new google.maps.Geocoder();
 
@@ -70,8 +72,11 @@
         console.log(places[i].location)
 
         var icon = 'wifi.png'
-        if(!places[i].wifi.free) {
+        if(places[i].tags.indexOf('wifi') >= 0 && !places[i].wifi.free) {
           icon = 'nowifi.png'
+        }
+        if(places[i].tags.indexOf('music_event') >= 0) {
+          icon = 'music.png'
         }
         var position = new google.maps.LatLng(places[i].location.lat, places[i].location.lng)
         var marker = new google.maps.Marker({
@@ -84,7 +89,12 @@
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
-            infowindow.setContent('<a href="'+places[i].coffeeshop.url+'">'+places[i].name+'</a><br/>'+places[i].coffeeshop.address);
+            if (places[i].tags.indexOf('coffeeshop') >= 0) {
+              infowindow.setContent('<a href="'+places[i].coffeeshop.url+'">'+places[i].name+'</a><br/>'+places[i].coffeeshop.address);
+            }
+            else if (places[i].tags.indexOf('music_event') >= 0) {
+              infowindow.setContent(places[i].music_event.band+'<br/>'+places[i].music_event.venue+'<br/>'+places[i].music_event.address+'<br/>'+places[i].music_event.date+'<br/>'+places[i].music_event.time);
+            }
             infowindow.open(map, marker);
           }
         })(marker, i));
