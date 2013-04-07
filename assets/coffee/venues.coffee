@@ -1,7 +1,6 @@
 q = new Yardbase.Query().with_tag("music_event") #.where('date', '04/07/13' )
 words = {}
 theResults = []
-genres = ["Punk", "Classical", "Rock", "Hip-Hop", "Bluegrass"]
 $('#wordcloud').click 'span', (clickEvent) -> 
   el = $('#bands')
   html = "<ul>"
@@ -14,7 +13,7 @@ $('#wordcloud').click 'span', (clickEvent) ->
 q.execute (results) -> 
   theResults = results
   for result in results
-    genre = result.music_event.genre ||= genres[Math.floor(Math.random()*5)]
+    genre = result.music_event.genre
     words[genre] ||= 0
     words[genre] += 1
   word_array = []
