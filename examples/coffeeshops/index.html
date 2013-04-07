@@ -93,7 +93,7 @@
               infowindow.setContent('<a href="'+places[i].coffeeshop.url+'">'+places[i].name+'</a><br/>'+places[i].coffeeshop.address);
             }
             else if (places[i].tags.indexOf('music_event') >= 0) {
-              infowindow.setContent(places[i].music_event.band+'<br/>'+places[i].music_event.venue+'<br/>'+places[i].music_event.address+'<br/>'+places[i].music_event.date+'<br/>'+places[i].music_event.time);
+              infowindow.setContent('<a href="'+places[i].music_event.url+'">'+places[i].music_event.band+'</a><br/>'+places[i].music_event.venue+'<br/>'+places[i].music_event.genre+'<br/>'+places[i].music_event.address+'<br/>'+places[i].music_event.date+'<br/>'+places[i].music_event.time);
             }
             infowindow.open(map, marker);
           }
