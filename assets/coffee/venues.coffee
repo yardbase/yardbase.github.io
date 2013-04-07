@@ -1,4 +1,4 @@
-q = Yardbase.Query.new.with_tag("event")
+q = new Yardbase.Query().with_tag("event")
 words = {}
 genres = ["Punk", "Classical", "Rock", "Hip-Hop", "Bluegrass"]
 q.execute (results) -> 

@@ -2,7 +2,7 @@
 (function() {
   var genres, q, words;
 
-  q = Yardbase.Query["new"].with_tag("event");
+  q = new Yardbase.Query().with_tag("event");
 
   words = {};
 
